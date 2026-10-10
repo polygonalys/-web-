@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ホーム</title>
+    <link rel="stylesheet" th:href="@{../css/style.css}">
+</head>
+<body>
+    <div class="menu-button">
+    <h1>学房Webアプリケーション</h1>
+        <div sec:authorize="hasRole('USER')">
+            <form th:action="@{/viewRead}" method="get">
+                <input type="submit" value="検索">
+            </form>
+            <form th:action="@{/viewCreate}" method="get">
+                <input type="submit" value="作成">
+            </form>
+            <form th:action="@{/viewUpdate}" method="get">
+                <input type="submit" value="更新">
+            </form>
+            <form th:action="@{/viewDelete}" method="get">
+                <input type="submit" value="削除">
+            </form>
+            <form th:action="@{/logout}" method="post">
+                <input type="submit" value="ログアウト">
+            </form>
+        </div>
+    </div>
+
+
+    <script th:src="@{/js/script.js}"></script>
+</body>
+</html>

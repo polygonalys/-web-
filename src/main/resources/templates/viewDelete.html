@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>削除画面</title>
+    <link rel="stylesheet" th:href="@{../css/style.css}">
+</head>
+<body>
+    <h1>Update</h1>
+    <form th:action="@{/delete}" method="post" th:object="${classesSchedules}">
+        <table>
+            <tr>
+            <th>削除する学年を入力してください</th>
+                <td>
+                    <input type="text" th:field="*{grade}"/>
+                    <div th:errors="*{grade}"></div>
+                </td>
+            </tr>
+            <tr>
+            <th>削除する時間割を入力して下さい</th>
+                <td>
+                    <input type="text" th:field="*{hour}"/>
+                    <div th:errors="*{hour}"></div>
+                 </td>
+            </tr>
+        </table>
+        <input type="submit" value="作成開始">
+    </form>
+</body>
+</html>
