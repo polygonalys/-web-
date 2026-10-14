@@ -3,16 +3,20 @@ package com.example.gakuboschedules.entity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-@AllArgsConstructor 
 @Setter
 @Getter
 public class User {
+    public User(String userEmail, String userPassword, String userName) {
+        this.userEmail = userEmail;
+        this.userPassword = userPassword;
+        this.userName = userName;
+    }
+
     private Integer id; // 主キー、整数型で連番
     
     @NotNull

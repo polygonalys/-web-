@@ -1,7 +1,5 @@
 package com.example.gakuboschedules.controller;
 
-import com.example.gakuboschedules.repository.ClassesSchedulesRepository;
-
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -23,7 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class GakuboController {
     private final GakuboSchedulesService gakuboSchedulesService;
 
-    public GakuboController(GakuboSchedulesService gakuboSchedulesService, ClassesSchedulesRepository classesSchedulesRepository) {
+    public GakuboController(GakuboSchedulesService gakuboSchedulesService) {
         this.gakuboSchedulesService = gakuboSchedulesService;
     }
 

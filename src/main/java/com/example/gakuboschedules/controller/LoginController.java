@@ -45,7 +45,7 @@ public class LoginController {
         session.setAttribute("loginUser", user.getUserEmail());
         session.setAttribute("loginUserName", user.getUserName());
 
-        return "login";
+        return "index";
     }
 
     @GetMapping("/signup")
@@ -75,7 +75,11 @@ public class LoginController {
             return "signup";
         }
 
-        userService.createUser(new User(null, email, encoder.encode(password), name));
+        User user = new User();
+        user.setUserEmail(email);
+        user.setUserName(name);
+        user.setUserPassword(encoder.encode(password));
+        userService.createUser(user);
 
         session.setAttribute("loginUser", email);
         session.setAttribute("loginUserName", name);
