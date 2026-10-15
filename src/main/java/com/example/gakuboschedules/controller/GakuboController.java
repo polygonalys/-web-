@@ -54,7 +54,7 @@ public class GakuboController {
     @GetMapping(value = "/read", params = "findById")
     public String getReadSchedules(@Validated @ModelAttribute("classesSchedules") ClassesSchedules classesSchedules, BindingResult rs, Model model) {
         if(rs.hasErrors()) {
-            return "viewRead";
+            return "user/viewRead";
         }
         List<ClassesSchedules> classesSchedulesList = gakuboSchedulesService.serachById(classesSchedules);
         model.addAttribute("classesSchedulesList", classesSchedulesList);
