@@ -3,7 +3,6 @@
 /build/
 /gradle/
 !/src/
-*.gradle
 *.properties
 gradlew
 gradlew.bat

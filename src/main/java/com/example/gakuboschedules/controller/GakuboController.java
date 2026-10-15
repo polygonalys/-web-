@@ -29,25 +29,25 @@ public class GakuboController {
     @GetMapping("/viewRead")
     public String showViewRead(Model model) {
         model.addAttribute("classesSchedules", new ClassesSchedules());
-        return "viewRead";
+        return "user/viewRead";
     }
 
     @GetMapping("/viewCreate")
     public String showViewCreate(Model model) {
         model.addAttribute("classesSchedules", new ClassesSchedules());
-        return "viewCreate";
+        return "user/viewCreate";
     }
 
     @GetMapping("/viewUpdate")
     public String showViewUpdate(Model model) {
         model.addAttribute("classesSchedules", new ClassesSchedules());
-        return "viewUpdate";
+        return "user/viewUpdate";
     }
 
     @GetMapping("/viewDelete")
     public String showViewDelete(Model model) {
         model.addAttribute("classesSchedules", new ClassesSchedules());
-        return "viewDelete";
+        return "user/viewDelete";
     }
     
 
@@ -73,7 +73,7 @@ public class GakuboController {
     @PostMapping("/create")
     public String postCreateSchedules(@Valid @ModelAttribute("classesSchedules") ClassesSchedules classesSchedules, BindingResult rs, Model model) {
         if(rs.hasErrors()){
-            return "viewCreate";
+            return "user/viewCreate";
         }
         
         gakuboSchedulesService.createSchedules(classesSchedules);
@@ -83,7 +83,7 @@ public class GakuboController {
     @PostMapping("/update")
     public String postUpdateSchedules(@Valid @ModelAttribute("classesSchedules") ClassesSchedules classesSchedules, BindingResult rs) {
         if(rs.hasErrors()) {
-            return "viewUpdate";
+            return "user/viewUpdate";
         }
 
         gakuboSchedulesService.updateSchedules(classesSchedules);
@@ -93,7 +93,7 @@ public class GakuboController {
     @PostMapping("/delete")
     public String postDeleteSchedules(@Valid @ModelAttribute("classesSchedules") ClassesSchedules classesSchedules, BindingResult rs) {
         if(rs.hasErrors()) {
-            return "viewUpdate";
+            return "user/viewUpdate";
         }
 
         gakuboSchedulesService.deleteSchedules(classesSchedules);
