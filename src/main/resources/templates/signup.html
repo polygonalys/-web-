@@ -10,19 +10,27 @@
     <h2>新規登録</h2>
     <p th:if="${error}" th:text="${error}" style="color:red;"></p>
     <form th:action="@{/signup}" method="post">
-        <label>名前</label>
-        <input type="text" name="name" required>
-
-        <label>Eメール</label>
-        <input type="email" name="email" required>
-
-        <label>パスワード</label>
-        <input type="password" name="password" required>
-
-        <label>パスワードの確認</label>
-        <input type="password" name="confirmpassword" required>
-
-        <button type="submit">登録</button>
+        <table>
+            <tr>
+                <td><label>名前</label></td>
+                <td><input type="text" name="name" required></td>
+            </tr>
+            <tr>
+                <td><label>Eメール</label></td>
+                <td><input type="email" name="email" required></td>
+            </td>
+            <tr>
+                <td><label>パスワード</label></td>
+                <td><input type="password" name="password" required></td>
+            </tr>
+            <tr>
+                <td><label>パスワードの確認</label></td>
+                <td><input type="password" name="confirmpassword" required></td>
+            </tr>
+            <tr>
+                <td><button type="submit">登録</button></td>
+            </tr>
+        </table>
     </form>
 </body>
 </html>

@@ -28,7 +28,7 @@ public class UserRepository {
     }
 
     public void insert(User user) {
-        String sql = "INSERT INTO login_user (user_email, user_password, user_name) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO login_user(user_email, user_password, user_name) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, user.getUserEmail(), user.getUserPassword(), user.getUserName());
     }
 }

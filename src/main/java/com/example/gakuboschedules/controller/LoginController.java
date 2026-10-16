@@ -83,7 +83,7 @@ public class LoginController {
 
         session.setAttribute("loginUser", email);
         session.setAttribute("loginUserName", name);
-        return "signup";
+        return "index";
     }
     
 }

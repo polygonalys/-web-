@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import com.example.gakuboschedules.entity.User;
 import com.example.gakuboschedules.repository.UserRepository;
 
-@Service 
+@Service
 public class UserService {
     private final UserRepository userRepository;
 
