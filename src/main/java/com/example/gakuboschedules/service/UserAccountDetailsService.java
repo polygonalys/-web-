@@ -3,13 +3,37 @@ package com.example.gakuboschedules.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-public class UserAccountDetailsService implements UserDetailsService{
+import com.example.gakuboschedules.entity.User;
+import com.example.gakuboschedules.repository.UserRepository;
+
+@Service
+public class UserAccountDetailsService implements UserDetailsService {
+    private final UserRepository userRepository;
+
+    public UserAccountDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        try {
+            User user = userRepository.findByUsername(username);
+
+            // return org.springframework.security.core.userdetails.User
+            //    .withUsername(user.getUserName())
+            //    .password(user.getUserPassword())
+            //    .authorities(null)
+            //    .build();
+
+
+        } catch(UsernameNotFoundException e) {
+            throw new UsernameNotFoundException(username);
+        }
+
         
-        throw new UnsupportedOperationException("Unimplemented method 'loadUserByUsername'");
     }
+
     
 }

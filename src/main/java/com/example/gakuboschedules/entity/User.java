@@ -11,10 +11,11 @@ import lombok.Setter;
 @Setter
 @Getter
 public class User {
-    public User(String userEmail, String userPassword, String userName) {
+    public User(String userEmail, String userPassword, String userName, boolean userEnabled) {
         this.userEmail = userEmail;
         this.userPassword = userPassword;
         this.userName = userName;
+        this.userEnabled = userEnabled;
     }
 
     private Integer id; // 主キー、整数型で連番
@@ -28,4 +29,7 @@ public class User {
     private String userPassword; // パスワード、重複は可能で空にしない。また、長さは８文字以上
 
     private String userName; // 名前、重複は可能で空の場合は田中太郎という名前になる
+
+    @NotNull
+    private boolean userEnabled;
 }

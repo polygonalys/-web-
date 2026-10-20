@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.gakuboschedules.entity.User;
 
-public class UserAccountDetails implements UserDetails{
+public class UserAccountDetails implements UserDetails {
     private final User user;
     private final  Collection<GrantedAuthority> authorities;
 
@@ -22,7 +22,6 @@ public class UserAccountDetails implements UserDetails{
         return true;
     }
 
-
     @Override
     public boolean isAccountNonLocked() {
         return true;
@@ -35,7 +34,7 @@ public class UserAccountDetails implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return user.isUserEnabled();
     }
 
     @Override
