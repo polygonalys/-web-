@@ -29,21 +29,21 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String Login(@RequestParam String email,
+    public String Login(@RequestParam String username,
                         @RequestParam String password,
                         HttpSession session,
                         Model model) {
-        User user = userService.checkEmail(email);
+        User user = userService.checkUsername(username);
 
         if(user == null || !encoder.matches(password, user.getUserPassword())) {
 
-            model.addAttribute("error", "メールアドレスまたはパスワードが違います");
-            model.addAttribute("email", email);
+            // model.addAttribute("error", "メールアドレスまたはパスワードが違います");
+            // model.addAttribute("email", null);
             return "login";
         }
 
-        session.setAttribute("loginUser", user.getUserEmail());
-        session.setAttribute("loginUserName", user.getUserName());
+        // session.setAttribute("loginUser", user.getUserEmail());
+        // session.setAttribute("loginUserName", user.getUserName());
 
         return "index";
     }
@@ -54,8 +54,7 @@ public class LoginController {
     }
     
     @PostMapping("/signup")
-    public String signUp(@RequestParam String name,
-                         @RequestParam String email,
+    public String signUp(@RequestParam String username,
                          @RequestParam String password,
                          @RequestParam String confirmpassword,
                          HttpSession session,
@@ -68,7 +67,7 @@ public class LoginController {
             return "signup";
         }
 
-        User existing = userService.checkEmail(email);
+        User existing = userService.checkUsername(username);
 
         if(existing != null) {
             model.addAttribute("error", "このメールアドレスは既に使用されています。");
@@ -76,13 +75,13 @@ public class LoginController {
         }
 
         User user = new User();
-        user.setUserEmail(email);
-        user.setUserName(name);
+        // user.setUserEmail(email);
+        // user.setUserName(name);
         user.setUserPassword(encoder.encode(password));
         userService.createUser(user);
 
-        session.setAttribute("loginUser", email);
-        session.setAttribute("loginUserName", name);
+        // session.setAttribute("loginUser", email);
+        // session.setAttribute("loginUserName", name);
         return "index";
     }
     

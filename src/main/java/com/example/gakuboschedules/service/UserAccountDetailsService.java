@@ -21,11 +21,11 @@ public class UserAccountDetailsService implements UserDetailsService {
         try {
             User user = userRepository.findByUsername(username);
 
-            // return org.springframework.security.core.userdetails.User
-            //    .withUsername(user.getUserName())
-            //    .password(user.getUserPassword())
-            //    .authorities(null)
-            //    .build();
+            return org.springframework.security.core.userdetails.User
+               .withUsername(user.getUserId())
+               .password(user.getUserPassword())
+               .roles("USER")
+               .build();
 
 
         } catch(UsernameNotFoundException e) {

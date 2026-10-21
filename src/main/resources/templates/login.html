@@ -11,15 +11,15 @@
     <form th:action="@{/login}" method="post">
         <table>
             <tr>
-                <td><label>Eメール</label></td>
-                <td><input type="email" name="email" required></td>
+                <td><label>ユーザーID</label></td>
+                <td><input type="text" name="userid" required></td>
             </tr>
             <tr>
                 <td><label>パスワード</label></td>
                 <td><input type="password" name="password" required></td>
             </tr>
             <tr>
-                <td><button>ログイン</button></td>
+                <td><button type="submit">ログイン</button></td>
             </tr>
         </table>
     </form>

@@ -1,11 +1,14 @@
 package com.example.gakuboschedules.repository;
 
-import java.util.Optional;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.example.gakuboschedules.entity.User;
+import com.example.gakuboschedules.entity.UserRole;
 
 @Repository
 public class UserRepository {
@@ -15,36 +18,41 @@ public class UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public User findByEmail(String email) {
-        String sql = "SELECT id, user_email, user_password, user_name FROM login_user WHERE user_email = ?";
-        return jdbcTemplate.query(sql, rs -> {
-            if(!rs.next()) return null;
+    static class CustomRowMapper implements RowMapper<User> {
+        @Override
+        public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
             user.setId(rs.getInt("id"));
-            user.setUserEmail(rs.getString("user_email"));
+            user.setUserId(rs.getString("user_id"));
             user.setUserPassword(rs.getString("user_password"));
-            user.setUserName(rs.getString("user_name"));
+            UserRole userRole = new UserRole();
+            userRole.setUserId(rs.getString("user_id"));
+            userRole.setUserRole(rs.getString("user_role"));
 
             return user;
-        }, email);
+        }
     }
 
     public User findByUsername(String username) {
-        String sql = "SELECT id, user_email, user_password, user_name FROM login_user WHERE user_username = ?";
-        return jdbcTemplate.query(sql, rs -> {
-            if(!rs.next()) return null;
-            User user = new User();
-            user.setId(rs.getInt("id"));
-            user.setUserEmail(rs.getString("user_email"));
-            user.setUserPassword(rs.getString("user_password"));
-            user.setUserName(rs.getString("user_name"));
+        String sql = """
+            SELECT 
+                login_user.id AS l_id,
+                login_user.user_id AS l_userid,
+                login_user.user_password AS l_password,
+                user_roles.user_id AS u_id,
+                user_roles.user_role AS u_role
+            FROM login_user
+                LEFT OUTER JOIN user_roles
+            ON login_user.id = user_roles.user_id
+            WHERE
+                login_user.id = ?
+        """;
 
-            return user;
-        }, username);
+        return jdbcTemplate.queryForObject(sql, new CustomRowMapper(), username);
     }
 
     public void insert(User user) {
-        String sql = "INSERT INTO login_user(user_email, user_password, user_name) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, user.getUserEmail(), user.getUserPassword(), user.getUserName());
+        String sql = "INSERT INTO login_user(user_id, user_password) VALUES (?, ?)";
+        jdbcTemplate.update(sql, user.getUserId() , user.getUserPassword());
     }
 }
