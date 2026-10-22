@@ -24,12 +24,17 @@ public class UserAccountDetailsService implements UserDetailsService {
             return org.springframework.security.core.userdetails.User
                .withUsername(user.getUserId())
                .password(user.getUserPassword())
+               .disabled(false)
+               .accountExpired(false)
+               .credentialsExpired(false)
+               .accountLocked(false)
                .roles("USER")
+            //    .authorities(null)
                .build();
 
 
         } catch(UsernameNotFoundException e) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException("ユーザーが見つかりません");
         }
 
         

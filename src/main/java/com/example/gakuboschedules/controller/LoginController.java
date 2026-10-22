@@ -1,5 +1,6 @@
 package com.example.gakuboschedules.controller;
 
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.gakuboschedules.entity.User;
+import com.example.gakuboschedules.service.UserAccountDetailsService;
 import com.example.gakuboschedules.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -17,10 +19,12 @@ import jakarta.servlet.http.HttpSession;
 @Controller 
 public class LoginController {
     private final UserService userService;
+    private final UserAccountDetailsService userAccountDetailsService;
     private final PasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public LoginController(UserService userService) {
+    public LoginController(UserService userService, UserAccountDetailsService userAccountDetailsService) {
         this.userService = userService;
+        this.userAccountDetailsService = userAccountDetailsService;
     }
 
     @GetMapping("/login")
@@ -29,13 +33,13 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String Login(@RequestParam String username,
+    public String Login(@RequestParam String userid,
                         @RequestParam String password,
                         HttpSession session,
                         Model model) {
-        User user = userService.checkUsername(username);
+        UserDetails user = userAccountDetailsService.loadUserByUsername(userid);
 
-        if(user == null || !encoder.matches(password, user.getUserPassword())) {
+        if(user == null || !encoder.matches(password, user.getPassword())) {
 
             // model.addAttribute("error", "メールアドレスまたはパスワードが違います");
             // model.addAttribute("email", null);
@@ -54,7 +58,7 @@ public class LoginController {
     }
     
     @PostMapping("/signup")
-    public String signUp(@RequestParam String username,
+    public String signUp(@RequestParam String userid,
                          @RequestParam String password,
                          @RequestParam String confirmpassword,
                          HttpSession session,
@@ -62,12 +66,11 @@ public class LoginController {
                          ) {
         
         if(!password.equals(confirmpassword)) {
-            
             model.addAttribute("error", "パスワードが一致していません。");
             return "signup";
         }
 
-        User existing = userService.checkUsername(username);
+        UserDetails existing = userAccountDetailsService.loadUserByUsername(userid);
 
         if(existing != null) {
             model.addAttribute("error", "このメールアドレスは既に使用されています。");

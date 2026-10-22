@@ -59,7 +59,7 @@ public class GakuboController {
         List<ClassesSchedules> classesSchedulesList = gakuboSchedulesService.serachById(classesSchedules);
         model.addAttribute("classesSchedulesList", classesSchedulesList);
 
-        return "dispatcher/viewReadDisp";
+        return "user/dispatcher/viewReadDisp";
     }
 
     @GetMapping(value = "/read", params = "findAll")
@@ -67,7 +67,7 @@ public class GakuboController {
         List<ClassesSchedules> classesSchedulesList = gakuboSchedulesService.searchAll();
         model.addAttribute("classesSchedulesList", classesSchedulesList);
         
-        return "dispatcher/viewReadAllDisp";
+        return "user/dispatcher/viewReadAllDisp";
     }
     
     @PostMapping("/create")
@@ -77,7 +77,7 @@ public class GakuboController {
         }
         
         gakuboSchedulesService.createSchedules(classesSchedules);
-        return "dispatcher/viewCreateDisp";
+        return "user/dispatcher/viewCreateDisp";
     }
     
     @PostMapping("/update")
@@ -87,7 +87,7 @@ public class GakuboController {
         }
 
         gakuboSchedulesService.updateSchedules(classesSchedules);
-        return "dispatcher/viewUpdateDisp";
+        return "user/dispatcher/viewUpdateDisp";
     }
     
     @PostMapping("/delete")
@@ -97,6 +97,6 @@ public class GakuboController {
         }
 
         gakuboSchedulesService.deleteSchedules(classesSchedules);
-        return "dispatcher/viewDeleteDisp";
+        return "user/dispatcher/viewDeleteDisp";
     }
 }

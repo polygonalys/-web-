@@ -39,13 +39,13 @@ public class UserRepository {
                 login_user.id AS l_id,
                 login_user.user_id AS l_userid,
                 login_user.user_password AS l_password,
-                user_roles.user_id AS u_id,
-                user_roles.user_role AS u_role
+                user_role.user_id AS u_id,
+                user_role.user_role AS u_role
             FROM login_user
-                LEFT OUTER JOIN user_roles
-            ON login_user.id = user_roles.user_id
+                LEFT OUTER JOIN user_role
+            ON login_user.user_id = user_role.user_id
             WHERE
-                login_user.id = ?
+                login_user.user_id = ?
         """;
 
         return jdbcTemplate.queryForObject(sql, new CustomRowMapper(), username);

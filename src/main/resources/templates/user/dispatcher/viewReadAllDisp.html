@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>検索結果</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <th>学年</th>
+            <th>時間割</th>
+            <th>科目</th>
+        </tr>
+        <tr th:each="classes : ${classesSchedulesList}">
+            <td>
+                <span th:text="${classes.grade}"></span>
+            </td>
+            <td>
+                <span th:text="${classes.hour}"></span>
+            </td>
+            <td>
+                <span th:text="${classes.schoolSubject}"></span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>

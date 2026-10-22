@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>見つかったのは</h1>
+    <table>
+        <tr>
+            <th>学年</th>
+            <th>時間割</th>
+            <th>科目</th>
+        </tr>
+        <tr th:each="classes : ${classesSchedulesList}">
+            <td>
+                <span th:text="${classes.grade}"></span>
+            </td>
+            <td>
+                <span th:text="${classes.hour}"></span>
+            </td>
+            <td>
+                <span th:text="${classes.schoolSubject}"></span>
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
