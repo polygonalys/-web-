@@ -22,8 +22,9 @@ public class SecurityConfig {
     @Bean 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.formLogin(form -> form
+            .usernameParameter("userId")
+            .passwordParameter("userPassword")
             .loginPage("/login")
-            .loginProcessingUrl("/login")
             .permitAll())
         .userDetailsService(userAccountDetailsService)
         .authorizeHttpRequests(auth -> auth

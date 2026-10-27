@@ -33,21 +33,17 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String Login(@RequestParam String userid,
-                        @RequestParam String password,
+    public String Login(@RequestParam String userId,
+                        @RequestParam String userPassword,
                         HttpSession session,
                         Model model) {
-        UserDetails user = userAccountDetailsService.loadUserByUsername(userid);
+        UserDetails user = userAccountDetailsService.loadUserByUsername(userId);
 
-        if(user == null || !encoder.matches(password, user.getPassword())) {
+        if(user == null || !encoder.matches(userPassword, user.getPassword())) {
 
-            // model.addAttribute("error", "メールアドレスまたはパスワードが違います");
-            // model.addAttribute("email", null);
+            model.addAttribute("error", "メールアドレスまたはパスワードが違います");
             return "login";
         }
-
-        // session.setAttribute("loginUser", user.getUserEmail());
-        // session.setAttribute("loginUserName", user.getUserName());
 
         return "index";
     }
@@ -58,19 +54,19 @@ public class LoginController {
     }
     
     @PostMapping("/signup")
-    public String signUp(@RequestParam String userid,
-                         @RequestParam String password,
-                         @RequestParam String confirmpassword,
+    public String signUp(@RequestParam String userId,
+                         @RequestParam String userPassword,
+                         @RequestParam String confirmPassword,
                          HttpSession session,
                          Model model
                          ) {
         
-        if(!password.equals(confirmpassword)) {
+        if(!userPassword.equals(confirmPassword)) {
             model.addAttribute("error", "パスワードが一致していません。");
             return "signup";
         }
 
-        UserDetails existing = userAccountDetailsService.loadUserByUsername(userid);
+        UserDetails existing = userAccountDetailsService.loadUserByUsername(userId);
 
         if(existing != null) {
             model.addAttribute("error", "このメールアドレスは既に使用されています。");
@@ -80,7 +76,7 @@ public class LoginController {
         User user = new User();
         // user.setUserEmail(email);
         // user.setUserName(name);
-        user.setUserPassword(encoder.encode(password));
+        user.setUserPassword(encoder.encode(userPassword));
         userService.createUser(user);
 
         // session.setAttribute("loginUser", email);

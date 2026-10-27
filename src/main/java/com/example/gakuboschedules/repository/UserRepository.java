@@ -22,12 +22,12 @@ public class UserRepository {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
-            user.setId(rs.getInt("id"));
-            user.setUserId(rs.getString("user_id"));
-            user.setUserPassword(rs.getString("user_password"));
+            user.setId(rs.getInt("l_id"));
+            user.setUserId(rs.getString("l_user_id"));
+            user.setUserPassword(rs.getString("l_user_password"));
             UserRole userRole = new UserRole();
-            userRole.setUserId(rs.getString("user_id"));
-            userRole.setUserRole(rs.getString("user_role"));
+            userRole.setUserId(rs.getString("u_id"));
+            userRole.setUserRole(rs.getString("u_role"));
 
             return user;
         }
@@ -37,8 +37,8 @@ public class UserRepository {
         String sql = """
             SELECT 
                 login_user.id AS l_id,
-                login_user.user_id AS l_userid,
-                login_user.user_password AS l_password,
+                login_user.user_id AS l_user_id,
+                login_user.user_password AS l_user_password,
                 user_role.user_id AS u_id,
                 user_role.user_role AS u_role
             FROM login_user

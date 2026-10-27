@@ -1,5 +1,6 @@
 package com.example.gakuboschedules.service;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,17 +29,15 @@ public class UserAccountDetailsService implements UserDetailsService {
                .accountExpired(false)
                .credentialsExpired(false)
                .accountLocked(false)
-               .roles("USER")
+
             //    .authorities(null)
                .build();
 
 
         } catch(UsernameNotFoundException e) {
-            throw new UsernameNotFoundException("ユーザーが見つかりません");
+            throw new UsernameNotFoundException("ユーザー名が見つかりません");
+        } catch(EmptyResultDataAccessException e) {
+            throw new EmptyResultDataAccessException("ユーザーが見つかりません", e.getExpectedSize());
         }
-
-        
     }
-
-    
 }
