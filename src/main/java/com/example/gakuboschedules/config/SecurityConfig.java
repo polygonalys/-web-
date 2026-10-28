@@ -8,16 +8,16 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.example.gakuboschedules.service.UserAccountDetailsService;
+// import com.example.gakuboschedules.service.UserAccountDetailsService;
 
 @Configuration 
 @EnableWebSecurity 
 public class SecurityConfig {
-    private  final UserAccountDetailsService userAccountDetailsService;
+    // private  final UserAccountDetailsService userAccountDetailsService;
 
-    public SecurityConfig(UserAccountDetailsService userAccountDetailsService) {
-        this.userAccountDetailsService = userAccountDetailsService;
-    }
+    // public SecurityConfig(UserAccountDetailsService userAccountDetailsService) {
+    //     this.userAccountDetailsService = userAccountDetailsService;
+    // }
 
     @Bean 
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -26,7 +26,7 @@ public class SecurityConfig {
             .passwordParameter("userPassword")
             .loginPage("/login")
             .permitAll())
-        .userDetailsService(userAccountDetailsService)
+        // .userDetailsService(userAccountDetailsService)
         .authorizeHttpRequests(auth -> auth
             .requestMatchers("/").permitAll()
             .requestMatchers("/signup").permitAll()

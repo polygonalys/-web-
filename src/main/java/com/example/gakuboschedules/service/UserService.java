@@ -17,7 +17,7 @@ public class UserService {
         return userRepository.findByUsername(username);
     }
 
-    public void createUser(User user) {
-        userRepository.insert(user);
-    }
+    // public void createUser(User user) {
+    //     userRepository.insert(user);
+    // }
 }

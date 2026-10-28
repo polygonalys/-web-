@@ -5,8 +5,10 @@ import java.sql.SQLException;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
+import com.example.gakuboschedules.config.UserAccountDetails;
 import com.example.gakuboschedules.entity.User;
 import com.example.gakuboschedules.entity.UserRole;
 
@@ -52,8 +54,10 @@ public class UserRepository {
         return jdbcTemplate.queryForObject(sql, new CustomRowMapper(), username);
     }
 
-    public void insert(User user) {
-        String sql = "INSERT INTO login_user(user_id, user_password) VALUES (?, ?)";
-        jdbcTemplate.update(sql, user.getUserId() , user.getUserPassword());
+    public void insert(String userId, String userPassword, String userRole) {
+        String user_sql = "INSERT INTO login_user(user_id, user_password) VALUES (?, ?)";
+        String role_sql = "INSERT INTO user_role(user_id, user_role) VALUES (?, ?)";
+        jdbcTemplate.update(user_sql, userId , userPassword);
+        jdbcTemplate.update(role_sql, userId, userRole);
     }
 }

@@ -34,15 +34,17 @@ public class LoginController {
                         @RequestParam String userPassword,
                         HttpSession session,
                         Model model) {
+
+        encoder.encode(userPassword);
         UserDetails user = userAccountDetailsService.loadUserByUsername(userId);
 
         if(user == null || !encoder.matches(userPassword, user.getPassword())) {
-
             model.addAttribute("error", "メールアドレスまたはパスワードが違います");
-            return "login";
+            return "/login";
         }
-
-        return "index";
+        
+        session.setAttribute("loginUser", user);
+        return "redirect:/index";
     }
 
     @GetMapping("/signup")
@@ -63,22 +65,17 @@ public class LoginController {
             return "signup";
         }
 
-        UserDetails existing = userAccountDetailsService.loadUserByUsername(userId);
+        UserDetails exist = userAccountDetailsService.loadUserByUsername(userId);
 
-        if(existing != null) {
-            model.addAttribute("error", "このメールアドレスは既に使用されています。");
+        if(exist != null) {
+            model.addAttribute("error", "このユーザーは既に使用されています。");
             return "signup";
         }
+        
+        String hashPassword = encoder.encode(userPassword);
+        userAccountDetailsService.createUser(userId , hashPassword , );
 
-        User user = new User();
-        // user.setUserEmail(email);
-        // user.setUserName(name);
-        user.setUserPassword(encoder.encode(userPassword));
-        userAccountDetailsService.createUser(user);
-
-        // session.setAttribute("loginUser", email);
-        // session.setAttribute("loginUserName", name);
-        return "index";
+        return "redirect:/login";
     }
     
 }
