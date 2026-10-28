@@ -25,6 +25,7 @@ public class UserRepository {
             user.setId(rs.getInt("l_id"));
             user.setUserId(rs.getString("l_user_id"));
             user.setUserPassword(rs.getString("l_user_password"));
+            user.setUserRole(rs.getString("u_role"));
             UserRole userRole = new UserRole();
             userRole.setUserId(rs.getString("u_id"));
             userRole.setUserRole(rs.getString("u_role"));

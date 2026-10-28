@@ -24,4 +24,6 @@ public class User {
     @NotNull
     @Min(value = 8, message = "パスワードは８文字以上で入力してください。")
     private String userPassword; // パスワード、重複は可能で空にしない。また、長さは８文字以上
+
+    private String userRole;
 }

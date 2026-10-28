@@ -8,7 +8,11 @@
 </head>
 <body>
     <h2>新規登録</h2>
-    <p th:if="${error}" th:text="${error}" style="color:red;"></p>
+   <div th:if="${param.error}">
+                <div class="alert alert-danger">
+                    <span th:text="${session.SPRING_SECURITY_LAST_EXCEPTION.message ?: 'ユーザー情報が見つかりません'}"></span>
+                </div>
+            </div>
     <form th:action="@{/signup}" method="post">
         <table>
             <tr>

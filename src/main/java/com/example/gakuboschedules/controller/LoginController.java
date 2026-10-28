@@ -11,19 +11,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.gakuboschedules.entity.User;
 import com.example.gakuboschedules.service.UserAccountDetailsService;
-import com.example.gakuboschedules.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
 
 @Controller 
 public class LoginController {
-    private final UserService userService;
     private final UserAccountDetailsService userAccountDetailsService;
     private final PasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public LoginController(UserService userService, UserAccountDetailsService userAccountDetailsService) {
-        this.userService = userService;
+    public LoginController(UserAccountDetailsService userAccountDetailsService) {
         this.userAccountDetailsService = userAccountDetailsService;
     }
 
@@ -77,7 +74,7 @@ public class LoginController {
         // user.setUserEmail(email);
         // user.setUserName(name);
         user.setUserPassword(encoder.encode(userPassword));
-        userService.createUser(user);
+        userAccountDetailsService.createUser(user);
 
         // session.setAttribute("loginUser", email);
         // session.setAttribute("loginUserName", name);

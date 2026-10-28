@@ -17,6 +17,10 @@ public class UserAccountDetailsService implements UserDetailsService {
         this.userRepository = userRepository;
     }
 
+    public void createUser(User user) {
+        userRepository.insert(user);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try {
@@ -25,15 +29,12 @@ public class UserAccountDetailsService implements UserDetailsService {
             return org.springframework.security.core.userdetails.User
                .withUsername(user.getUserId())
                .password(user.getUserPassword())
+               .roles(user.getUserRole())
                .disabled(false)
                .accountExpired(false)
                .credentialsExpired(false)
                .accountLocked(false)
-
-            //    .authorities(null)
                .build();
-
-
         } catch(UsernameNotFoundException e) {
             throw new UsernameNotFoundException("ユーザー名が見つかりません");
         } catch(EmptyResultDataAccessException e) {
