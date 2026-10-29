@@ -1,6 +1,5 @@
 package com.example.gakuboschedules.controller;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.gakuboschedules.entity.User;
 import com.example.gakuboschedules.service.UserAccountDetailsService;
+import com.example.gakuboschedules.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -18,34 +18,42 @@ import jakarta.servlet.http.HttpSession;
 @Controller 
 public class LoginController {
     private final UserAccountDetailsService userAccountDetailsService;
+    private final UserService userService;
     private final PasswordEncoder encoder = new BCryptPasswordEncoder();
 
-    public LoginController(UserAccountDetailsService userAccountDetailsService) {
+    public LoginController(UserAccountDetailsService userAccountDetailsService, UserService userService) {
         this.userAccountDetailsService = userAccountDetailsService;
+        this.userService = userService;
     }
+
+    @GetMapping("/")
+    public String home() {
+        return "index";
+    }
+    
 
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
-    @PostMapping("/login")
-    public String Login(@RequestParam String userId,
-                        @RequestParam String userPassword,
-                        HttpSession session,
-                        Model model) {
+    // @PostMapping("/login")
+    // public String Login(@RequestParam String userId,
+    //                     @RequestParam String userPassword,
+    //                     HttpSession session,
+    //                     Model model) {
 
-        encoder.encode(userPassword);
-        UserDetails user = userAccountDetailsService.loadUserByUsername(userId);
+    //     encoder.encode(userPassword);
+    //     UserDetails user = userAccountDetailsService.loadUserByUsername(userId);
 
-        if(user == null || !encoder.matches(userPassword, user.getPassword())) {
-            model.addAttribute("error", "メールアドレスまたはパスワードが違います");
-            return "/login";
-        }
+    //     if(user == null || !encoder.matches(userPassword, user.getPassword())) {
+    //         model.addAttribute("error", "メールアドレスまたはパスワードが違います");
+    //         return "/login";
+    //     }
         
-        session.setAttribute("loginUser", user);
-        return "redirect:/index";
-    }
+    //     session.setAttribute("loginUser", user);
+    //     return "redirect:/index";
+    // }
 
     @GetMapping("/signup")
     public String signup() {
@@ -53,9 +61,9 @@ public class LoginController {
     }
     
     @PostMapping("/signup")
-    public String signUp(@RequestParam String userId,
-                         @RequestParam String userPassword,
-                         @RequestParam String confirmPassword,
+    public String signUp(@RequestParam("userId") String userId,
+                         @RequestParam("userPassword") String userPassword,
+                         @RequestParam("confirmPassword") String confirmPassword,
                          HttpSession session,
                          Model model
                          ) {
@@ -65,7 +73,7 @@ public class LoginController {
             return "signup";
         }
 
-        UserDetails exist = userAccountDetailsService.loadUserByUsername(userId);
+        User exist = userService.checkUsername(userId);
 
         if(exist != null) {
             model.addAttribute("error", "このユーザーは既に使用されています。");
@@ -73,7 +81,7 @@ public class LoginController {
         }
         
         String hashPassword = encoder.encode(userPassword);
-        userAccountDetailsService.createUser(userId , hashPassword , );
+        userAccountDetailsService.createUser(userId , hashPassword , "USER");
 
         return "redirect:/login";
     }

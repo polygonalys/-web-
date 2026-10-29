@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import com.example.gakuboschedules.config.UserAccountDetails;
 import com.example.gakuboschedules.entity.User;
 import com.example.gakuboschedules.repository.UserRepository;
 
@@ -27,17 +26,20 @@ public class UserAccountDetailsService implements UserDetailsService {
         try {
             User user = userRepository.findByUsername(username);
 
+            if(user == null) {
+                throw new UsernameNotFoundException("ユーザー名が見つかりません");
+            }
+
             return org.springframework.security.core.userdetails.User
                .withUsername(user.getUserId())
                .password(user.getUserPassword())
                .roles(user.getUserRole())
+               .authorities(user.getUserRole())
                .disabled(false)
                .accountExpired(false)
                .credentialsExpired(false)
                .accountLocked(false)
                .build();
-        } catch(UsernameNotFoundException e) {
-            throw new UsernameNotFoundException("ユーザー名が見つかりません");
         } catch(EmptyResultDataAccessException e) {
             throw new EmptyResultDataAccessException("ユーザーが見つかりません", e.getExpectedSize());
         }

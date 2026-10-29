@@ -9,7 +9,7 @@
 <body>
     <div class="menu-button">
     <h1>学房Webアプリケーション</h1>
-        <div sec:authorize="hasRole('USER')">
+        <div sec:authorize="hasAuthority('USER')">
             <form th:action="@{/viewRead}" method="get">
                 <input type="submit" value="検索">
             </form>
